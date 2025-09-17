@@ -1,26 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react'
+import { View, Text, Button } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
+import { SafeAreaProvider, } from 'react-native-safe-area-context'
+
+import Chat from './pages/Chat'
+
+import { createTheme, componentStyles, Theme, colors } from './designSystem'
+
+
+
 
 export default function App() {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Open up App.tsx to start working on your app!</Text>
-            <Text>This is a new text element.</Text>
-            <Text>This is another text element added.</Text>
-            <StatusBar style="auto" />
-        </View>
-    );
-}
+    const [darkTheme, setDarkTheme] = useState(false);
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: '#333',
-        fontWeight: 'bold',
-    }
-});
+    const theme: Theme = createTheme(darkTheme); // Global theme management
+
+
+    return (
+        <SafeAreaProvider >
+            <StatusBar backgroundColor={theme.colors.background} style={theme.isDark ? 'light' : 'dark'} />
+            <Chat theme={theme} />
+        </SafeAreaProvider>
+    )
+}
