@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { View, Text, Button } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider, } from 'react-native-safe-area-context'
 
-import Chat from './pages/Chat'
+import Chat from './src/screens/Chat'
 
-import { createTheme, componentStyles, Theme, colors } from './designSystem'
-
+import { createTheme, Theme } from './designSystem'
 
 
 

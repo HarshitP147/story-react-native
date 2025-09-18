@@ -3,9 +3,9 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingVi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 
-import MessageList from '../src/layout/MessageList';
+import MessageList from '../layout/MessageList';
 
-import { componentStyles, type Theme, shadows, ResponsiveUtils } from '../designSystem'
+import { componentStyles, type Theme, shadows, ResponsiveUtils } from '../../designSystem'
 
 
 
