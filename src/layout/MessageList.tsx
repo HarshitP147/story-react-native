@@ -1,13 +1,17 @@
+import { useContext } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 
-import { componentStyles, type Theme, ResponsiveUtils } from '../../designSystem'
+import ThemeContext from '../context/ThemeContext';
 
+import { componentStyles, ResponsiveUtils } from '../../designSystem'
 
 // A long list fake
 const messages = Array.from({ length: 100 }, (_, i) => `Message ${i + 1}`);
 
 
-export default function MessageList({ theme }: { theme: Theme }) {
+export default function MessageList() {
+    const { theme } = useContext(ThemeContext)!;
+
     return (
         <FlatList
             data={messages}

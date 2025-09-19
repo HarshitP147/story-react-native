@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 
+import ThemeContext from '../context/ThemeContext';
+
 import MessageList from '../layout/MessageList';
 
-import { componentStyles, type Theme, shadows, ResponsiveUtils } from '../../designSystem'
+import { componentStyles, shadows, ResponsiveUtils } from '../../designSystem'
 
 
 
-export default function Chat({ theme }: { theme: Theme }) {
+export default function Chat() {
     const [input, setInput] = useState('');
+
+    const { theme, toggleTheme } = useContext(ThemeContext)!;
 
     const handleSend = () => {
         if (input.trim() !== '') {
             console.log('Sent message:', input);
             setInput('');
         }
+        toggleTheme();
+
     };
 
     return (
@@ -27,7 +33,7 @@ export default function Chat({ theme }: { theme: Theme }) {
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : ResponsiveUtils.scale(20)}
             >
                 <View style={styles.chatContainer}>
-                    <MessageList theme={theme} />
+                    <MessageList />
                     <BlurView intensity={100} style={[styles.inputRow, {
                         // backgroundColor: theme.colors.surface + (theme.isDark ? '20' : 'F2'),
                         borderTopColor: theme.colors.border
@@ -57,7 +63,7 @@ export default function Chat({ theme }: { theme: Theme }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
     },
     keyboardContainer: {
         flex: 1,
