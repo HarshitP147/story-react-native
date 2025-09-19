@@ -1,13 +1,12 @@
 import { useState, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
 
 import ThemeContext from '../context/ThemeContext';
 
 import MessageList from '../layout/MessageList';
 
-import { componentStyles, shadows, ResponsiveUtils } from '../../designSystem'
+import { shadows, ResponsiveUtils } from '../../designSystem'
 
 
 
@@ -26,7 +25,8 @@ export default function Chat() {
     };
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+
             <KeyboardAvoidingView
                 style={styles.keyboardContainer}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -34,36 +34,16 @@ export default function Chat() {
             >
                 <View style={styles.chatContainer}>
                     <MessageList />
-                    <BlurView intensity={100} style={[styles.inputRow, {
-                        // backgroundColor: theme.colors.surface + (theme.isDark ? '20' : 'F2'),
-                        borderTopColor: theme.colors.border
-                    }]}>
-                        <TextInput
-                            placeholder='Type your message...'
-                            placeholderTextColor={theme.colors.textTertiary}
-                            style={[componentStyles.input(theme), styles.input]}
-                            value={input}
-                            onChangeText={setInput}
-                            onSubmitEditing={handleSend}
-                            returnKeyType="send"
-                            multiline={false}
-                        // blurOnSubmit={true}
-                        />
-                        <TouchableOpacity onPress={handleSend} style={[componentStyles.button.primary(theme), styles.sendButton]}>
-                            <Text style={[componentStyles.text.body(theme), { color: theme.colors.textInverse, fontWeight: '600' }]}>
-                                Send
-                            </Text>
-                        </TouchableOpacity>
-                    </BlurView>
                 </View>
+
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
     },
     keyboardContainer: {
         flex: 1,

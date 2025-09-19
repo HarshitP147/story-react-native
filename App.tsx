@@ -1,33 +1,50 @@
-import { useState, useContext } from 'react'
-import { StatusBar as ExpoStatusBar } from 'expo-status-bar'
-import { SafeAreaProvider, } from 'react-native-safe-area-context'
+import { useState } from 'react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { createDrawerNavigator, } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 
 import Chat from './src/screens/Chat'
+import AppStatusBar from './src/components/AppStatusBar';
+import DrawerContent from './src/components/DrawerContent';
 
-import ThemeContext, { ThemeProvider } from './src/context/ThemeContext'
+import { ThemeProvider } from './src/context/ThemeContext'
 
 import { createTheme } from './designSystem'
 
-function StatusBar() {
-    const { theme } = useContext(ThemeContext)!;
-    return <ExpoStatusBar backgroundColor={theme.colors.background} style={theme.isDark ? 'light' : 'dark'} />;
-}
+const Drawer = createDrawerNavigator();
+
+
 
 export default function App() {
-    const [darkTheme, setDarkTheme] = useState(true);
+    const [darkTheme, setDarkTheme] = useState(false);
 
     const themeContextValue = {
         theme: createTheme(darkTheme),
         toggleTheme: () => setDarkTheme(!darkTheme)
     }
 
-
     return (
+
         <SafeAreaProvider >
             <ThemeProvider value={themeContextValue}>
-                <StatusBar />
-                <Chat />
-            </ThemeProvider>
-        </SafeAreaProvider>
-    )
+                <AppStatusBar />
+                <NavigationContainer>
+                    <Drawer.Navigator
+                        screenOptions={{
+                            headerTintColor: themeContextValue.theme.colors.textInverse,
+                            headerStyle: {
+                                backgroundColor: themeContextValue.theme.colors.secondaryDark,
+                            }
+                        }}
+                        drawerContent={() => {
+                            return <DrawerContent />
+                        }}
+                        initialRouteName="Chat"
+                    >
+                        <Drawer.Screen name="Chat" component={Chat} />
+                    </Drawer.Navigator>
+                </NavigationContainer>
+            </ThemeProvider >
+        </SafeAreaProvider >
+    );
 }
