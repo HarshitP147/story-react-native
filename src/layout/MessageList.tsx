@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 
 import ThemeContext from '../context/ThemeContext';
 
-import { componentStyles, ResponsiveUtils } from '../../designSystem'
+import { componentStyles, ResponsiveUtils } from '../util/designSystem'
 
 // A long list fake
 const messages = Array.from({ length: 100 }, (_, i) => `Message ${i + 1}`);
@@ -31,11 +31,11 @@ export default function MessageList() {
 
 const styles = StyleSheet.create({
     messageContainer: {
-        marginBottom: ResponsiveUtils.scale(8),
+        marginBottom: ResponsiveUtils.scale(12),
         // Remove padding since ComponentStyles.card already provides it
     },
     listContainer: {
         padding: ResponsiveUtils.scale(16),
-        paddingBottom: ResponsiveUtils.scale(120), // Responsive bottom padding
+        paddingBottom: ResponsiveUtils.scale(12), // Responsive bottom padding
     },
 })

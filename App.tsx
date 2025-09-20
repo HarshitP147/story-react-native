@@ -3,16 +3,15 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { createDrawerNavigator, } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { ThemeProvider } from './src/context/ThemeContext'
+
 import Chat from './src/screens/Chat'
 import AppStatusBar from './src/components/AppStatusBar';
 import DrawerContent from './src/components/DrawerContent';
 
-import { ThemeProvider } from './src/context/ThemeContext'
-
-import { createTheme } from './designSystem'
+import { createTheme } from './src/util/designSystem'
 
 const Drawer = createDrawerNavigator();
-
 
 
 export default function App() {
@@ -24,16 +23,15 @@ export default function App() {
     }
 
     return (
-
         <SafeAreaProvider >
             <ThemeProvider value={themeContextValue}>
                 <AppStatusBar />
                 <NavigationContainer>
                     <Drawer.Navigator
                         screenOptions={{
-                            headerTintColor: themeContextValue.theme.colors.textInverse,
+                            headerTintColor: darkTheme ? 'white' : themeContextValue.theme.colors.textInverse,
                             headerStyle: {
-                                backgroundColor: themeContextValue.theme.colors.secondaryDark,
+                                backgroundColor: themeContextValue.theme.colors.primary,
                             }
                         }}
                         drawerContent={() => {

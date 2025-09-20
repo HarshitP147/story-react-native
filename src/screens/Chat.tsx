@@ -1,76 +1,81 @@
-import { useState, useContext } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useContext } from "react";
+import { View, Platform, KeyboardAvoidingView, StyleSheet, Keyboard, TouchableHighlight, TouchableWithoutFeedback, } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import ThemeContext from '../context/ThemeContext';
+import ThemeContext from "../context/ThemeContext";
 
-import MessageList from '../layout/MessageList';
+import Input from "../components/Input";
+import MessageList from "../layout/MessageList";
 
-import { shadows, ResponsiveUtils } from '../../designSystem'
-
-
+import { shadows, componentStyles, ResponsiveUtils } from "../util/designSystem"
 
 export default function Chat() {
-    const [input, setInput] = useState('');
 
-    const { theme, toggleTheme } = useContext(ThemeContext)!;
+    const { theme } = useContext(ThemeContext)!;
 
-    const handleSend = () => {
-        if (input.trim() !== '') {
-            console.log('Sent message:', input);
-            setInput('');
-        }
-        toggleTheme();
+    const [message, setMessage] = useState('');
 
-    };
+    console.log(message)
+
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <SafeAreaView
+            style={[styles.container, {
+                backgroundColor: theme.colors.background
+            }]}
+        >
+            <MessageList />
 
             <KeyboardAvoidingView
-                style={styles.keyboardContainer}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : ResponsiveUtils.scale(20)}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
             >
-                <View style={styles.chatContainer}>
-                    <MessageList />
-                </View>
-
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={{
+                        marginBottom: theme.spacing['lg'],
+                        flexDirection: 'row',
+                        paddingHorizontal: 27,
+                        alignItems: 'center',
+                    }}>
+                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
+                            <Input
+                                setMessage={setMessage}
+                            />
+                            <TouchableHighlight
+                                style={[
+                                    componentStyles.button.primary(theme),
+                                    {
+                                        // borderStartStartRadius: 0,
+                                        borderTopLeftRadius: 0,
+                                        borderBottomLeftRadius: 0,
+                                        paddingVertical: ResponsiveUtils.scale(12),
+                                        ...shadows.lg
+                                    }
+                                ]}
+                                onPress={() => {
+                                    // Handle submit logic here
+                                    console.log('Submit message:', message);
+                                }}
+                                underlayColor={theme.colors.primaryDark}
+                            >
+                                <MaterialIcons name="send" size={24} color="white" />
+                            </TouchableHighlight>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
-        </View>
+
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
-    keyboardContainer: {
-        flex: 1,
-    },
-    chatContainer: {
-        flex: 1,
-        position: 'relative',
-    },
-    inputRow: {
-        position: 'absolute',
-        bottom: ResponsiveUtils.scale(16), // Responsive positioning
-        left: ResponsiveUtils.scale(16),
-        right: ResponsiveUtils.scale(16),
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: ResponsiveUtils.scale(16),
-        paddingVertical: ResponsiveUtils.scale(12),
-        borderTopWidth: 1,
-        borderRadius: ResponsiveUtils.scale(20), // Rounded corners for floating effect
-        backgroundColor: 'transparent',
-        ...shadows.lg, // Stronger shadow for better floating effect
-    },
-    input: {
-        flex: 1,
-        marginRight: ResponsiveUtils.scale(12),
-    },
-    sendButton: {
-        minWidth: ResponsiveUtils.scale(60),
-    },
+    submitButton: {
+        borderStartStartRadius: 0,
+    }
 })
+

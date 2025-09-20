@@ -5,7 +5,8 @@ import { BlurView } from 'expo-blur';
 
 import MessageList from '../src/layout/MessageList';
 
-import { componentStyles, type Theme, shadows, ResponsiveUtils } from '../designSystem'
+import { componentStyles, shadows, ResponsiveUtils } from '../src/util/designSystem'
+import { type Theme } from '../src/util/types';
 
 
 

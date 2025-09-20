@@ -1,5 +1,6 @@
 import { createContext } from "react";
-import { createTheme, Theme } from "../../designSystem";
+import { createTheme } from "../util/designSystem";
+import { Theme } from '../util/types';
 
 const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void } | undefined>({
     theme: createTheme(false),

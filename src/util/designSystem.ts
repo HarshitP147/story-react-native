@@ -1,6 +1,7 @@
-// designSystem.ts - Your Complete Design System with Responsive Utils
 
 import { Dimensions, PixelRatio } from 'react-native';
+
+import type { BorderRadiusConfig, ColorPalette, ShadowStyle, SpacingConfig, Theme, TypographyConfig } from "./types"
 
 // Get device dimensions
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -55,122 +56,6 @@ export const ResponsiveUtils = {
     },
 };
 
-export interface ColorPalette {
-    // Primary Colors
-    primary: string;
-    primaryLight: string;
-    primaryDark: string;
-
-    // Secondary Colors
-    secondary: string;
-    secondaryLight: string;
-    secondaryDark: string;
-
-    // Accent Colors
-    accent: string;
-    accentSecondary: string;
-
-    // Semantic Colors
-    success: string;
-    warning: string;
-    error: string;
-    info: string;
-
-    // Backgrounds
-    background: string;
-    surface: string;
-    surfaceElevated: string;
-
-    // Text Colors
-    textPrimary: string;
-    textSecondary: string;
-    textTertiary: string;
-    textInverse: string;
-
-    // Borders
-    border: string;
-    borderStrong: string;
-
-    // Shadows
-    shadowLight: string;
-    shadowDark: string;
-}
-
-export interface TypographyConfig {
-    fontFamily: {
-        primary: string;
-        secondary: string;
-        mono: string;
-    };
-    fontSize: {
-        xs: number;
-        sm: number;
-        base: number;
-        lg: number;
-        xl: number;
-        '2xl': number;
-        '3xl': number;
-        '4xl': number;
-    };
-    fontWeight: {
-        light: string;
-        normal: string;
-        medium: string;
-        semibold: string;
-        bold: string;
-    };
-    lineHeight: {
-        tight: number;
-        normal: number;
-        relaxed: number;
-    };
-}
-
-export interface SpacingConfig {
-    xs: number;
-    sm: number;
-    md: number;
-    lg: number;
-    xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
-}
-
-export interface BorderRadiusConfig {
-    none: number;
-    sm: number;
-    md: number;
-    lg: number;
-    xl: number;
-    '2xl': number;
-    full: number;
-}
-
-export interface ShadowStyle {
-    shadowColor: string;
-    shadowOffset: { width: number; height: number };
-    shadowOpacity: number;
-    shadowRadius: number;
-    elevation: number;
-}
-
-export interface Theme {
-    colors: ColorPalette;
-    typography: TypographyConfig;
-    spacing: SpacingConfig;
-    borderRadius: BorderRadiusConfig;
-    shadows: {
-        neuromorphic: {
-            light: ShadowStyle;
-            dark: ShadowStyle;
-        };
-        sm: ShadowStyle;
-        md: ShadowStyle;
-        lg: ShadowStyle;
-    };
-    isDark: boolean;
-}
 
 export const colors: { light: ColorPalette; dark: ColorPalette } = {
     // Light Theme
@@ -502,50 +387,3 @@ export const componentStyles = {
         }),
     }),
 };
-
-// Usage example with TypeScript and Responsive Design:
-/*
-import { createTheme, ComponentStyles, Theme, ResponsiveUtils } from './designSystem';
-import { StyleSheet } from 'react-native';
-
-// In your component
-const theme: Theme = createTheme(isDarkMode);
-
-const styles = StyleSheet.create({
-  // Main container - always fits screen
-  container: ComponentStyles.container.main(theme),
-  
-  // Content with responsive padding
-  content: ComponentStyles.container.content(theme),
-  
-  // Responsive card that adapts to screen size
-  card: ComponentStyles.card(theme),
-  
-  // Button with proper touch target size
-  primaryButton: ComponentStyles.button.primary(theme),
-  
-  // Responsive text
-  title: ComponentStyles.text.h1(theme),
-  
-  // Custom responsive styles
-  customContainer: {
-    width: ResponsiveUtils.wp(90), // 90% of screen width
-    height: ResponsiveUtils.hp(30), // 30% of screen height
-    padding: ResponsiveUtils.scale(16), // Scales with screen size
-  },
-  
-  // Responsive grid item
-  gridItem: {
-    ...ComponentStyles.container.cardWrapper(theme),
-    ...ComponentStyles.card(theme),
-  },
-});
-
-// Helper functions you can use:
-// ResponsiveUtils.wp(50) - 50% of screen width
-// ResponsiveUtils.hp(25) - 25% of screen height  
-// ResponsiveUtils.fs(16) - Font size 16, scaled for screen
-// ResponsiveUtils.scale(20) - Size 20, proportionally scaled
-// ResponsiveUtils.deviceInfo.isTablet - Check if tablet
-// ResponsiveUtils.deviceInfo.isSmallDevice - Check if small phone
-*/

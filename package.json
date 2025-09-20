@@ -10,6 +10,7 @@
     "dev": "expo start --android"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "@react-navigation/drawer": "^7.5.8",
     "@react-navigation/native-stack": "^7.3.26",
     "expo": "~54.0.7",
