@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useCallback } from "react"
-import { TextInput } from "react-native-gesture-handler"
+import { ScrollView, TextInput } from "react-native-gesture-handler"
 
 import ThemeContext from "../context/ThemeContext"
 
@@ -40,34 +40,30 @@ export default function Input({ setMessage }: {
 
 
     return (
-        <TextInput
-            style={{
-                ...componentStyles.input(theme),
-                // width: '100%',
-                width: Platform.OS === "web" ? "45%" : "85%",
-                height: inputHeight,
-                borderWidth: 1,
-                borderColor: theme.colors.borderStrong,
-                backgroundColor: theme.colors.surface,
-                textAlignVertical: 'top',
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0,
-                paddingVertical: ResponsiveUtils.scale(12),
-                lineHeight: lineHeight,
-                ...shadows.lg
-            }}
-            value={text}
-            onChangeText={(newText) => setText(newText)}
+        <ScrollView>
+            <TextInput
+                style={{
+                    ...componentStyles.input(theme),
+                    // width: Platform.OS === "web" ? "45%" : "85%",
+                    height: inputHeight,
+                    backgroundColor: theme.colors.surface,
+                    textAlignVertical: 'top',
+                    borderRadius: theme.borderRadius.full,
+                    paddingVertical: ResponsiveUtils.scale(12),
+                    lineHeight: lineHeight,
+                }}
+                value={text}
+                onChangeText={(newText) => setText(newText)}
 
-            onContentSizeChange={handleContentSizeChange}
-            multiline={true}
-            numberOfLines={3}
-            placeholder="Type your message..."
-            placeholderTextColor={theme.colors.textTertiary}
-            maxLength={1000}
-            scrollEnabled={inputHeight >= maxHeight}
-            returnKeyType="default"
-        />
+                onContentSizeChange={handleContentSizeChange}
+                multiline={true}
+                numberOfLines={3}
+                placeholder="Type your message..."
+                placeholderTextColor={theme.colors.textTertiary}
+                maxLength={1000}
+                returnKeyType="default"
+            />
+        </ScrollView>
     )
 }
 

@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { View, Platform, KeyboardAvoidingView, StyleSheet, Keyboard, TouchableHighlight, TouchableWithoutFeedback, } from "react-native"
+import { useState, useContext, useEffect } from "react";
+import { View, Platform, KeyboardAvoidingView, StyleSheet, Keyboard, TouchableHighlight, TouchableWithoutFeedback, TextInput, TouchableNativeFeedback, Button, } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -10,72 +10,74 @@ import MessageList from "../layout/MessageList";
 
 import { shadows, componentStyles, ResponsiveUtils } from "../util/designSystem"
 
+
 export default function Chat() {
 
     const { theme } = useContext(ThemeContext)!;
 
     const [message, setMessage] = useState('');
 
-    console.log(message)
+    function handleSubmitMessage() {
+        console.log(message);
+    }
 
 
     return (
-        <SafeAreaView
-            style={[styles.container, {
-                backgroundColor: theme.colors.background
-            }]}
-        >
-            <MessageList />
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
 
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={{
-                        marginBottom: theme.spacing['lg'],
-                        flexDirection: 'row',
-                        paddingHorizontal: 27,
-                        alignItems: 'center',
-                    }}>
-                        <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center' }}>
-                            <Input
-                                setMessage={setMessage}
-                            />
-                            <TouchableHighlight
-                                style={[
-                                    componentStyles.button.primary(theme),
-                                    {
-                                        // borderStartStartRadius: 0,
-                                        borderTopLeftRadius: 0,
-                                        borderBottomLeftRadius: 0,
-                                        paddingVertical: ResponsiveUtils.scale(12),
-                                        ...shadows.lg
-                                    }
-                                ]}
-                                onPress={() => {
-                                    // Handle submit logic here
-                                    console.log('Submit message:', message);
-                                }}
-                                underlayColor={theme.colors.primaryDark}
-                            >
-                                <MaterialIcons name="send" size={24} color="white" />
-                            </TouchableHighlight>
-                        </View>
-                    </View>
+                <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+                    <MessageList />
                 </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
 
+                <View
+                    style={[styles.inputContainer, { backgroundColor: theme.colors.background, borderColor: theme.colors.borderStrong }]}
+                >
+                    <Input setMessage={setMessage} />
+                    <TouchableHighlight style={{
+                        borderWidth: 1,
+                        borderRadius: theme.borderRadius.full,
+                        padding: ResponsiveUtils.scale(6),
+                        marginRight: ResponsiveUtils.scale(8),
+                    }}>
+                        <MaterialIcons name="multitrack-audio" size={ResponsiveUtils.scale(24)} color={theme.colors.textPrimary} />
+                    </TouchableHighlight>
+                    <View
+                        style={{
+                            backgroundColor: theme.colors.secondary,
+                            padding: ResponsiveUtils.scale(8),
+                            borderRadius: theme.borderRadius.full,
+                        }}
+                    >
+                        <TouchableNativeFeedback style={{
+                            backgroundColor: theme.colors.accent
+                        }}>
+                            <MaterialIcons name="send" size={ResponsiveUtils.scale(24)} color={'white'} />
+                        </TouchableNativeFeedback>
+                    </View>
+                </View>
+
+            </KeyboardAvoidingView>
         </SafeAreaView>
+
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
-    submitButton: {
-        borderStartStartRadius: 0,
+    inputContainer: {
+        position: 'static',
+        borderWidth: 0,
+        borderTopWidth: 1,
+        paddingVertical: ResponsiveUtils.scale(4),
+        paddingHorizontal: ResponsiveUtils.scale(4),
+        flexDirection: 'row',
+        alignItems: 'center',
+
     }
 })
 
