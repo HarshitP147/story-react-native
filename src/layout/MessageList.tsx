@@ -83,7 +83,7 @@ export default function MessageList() {
                         style={[
                             styles.scrollButton,
                             {
-                                backgroundColor: theme.colors.primary,
+                                backgroundColor: theme.colors.background,
                                 ...shadows.lg
                             }
                         ]}

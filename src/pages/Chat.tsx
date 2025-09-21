@@ -6,6 +6,7 @@ import { BlurView } from 'expo-blur';
 import MessageList from '../layout/MessageList';
 
 import { componentStyles, shadows, ResponsiveUtils } from '../util/designSystem'
+
 import { type Theme } from '../util/types';
 
 
@@ -28,7 +29,7 @@ export default function Chat({ theme }: { theme: Theme }) {
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : ResponsiveUtils.scale(20)}
             >
                 <View style={styles.chatContainer}>
-                    <MessageList theme={theme} />
+                    <MessageList />
                     <BlurView intensity={100} style={[styles.inputRow, {
                         // backgroundColor: theme.colors.surface + (theme.isDark ? '20' : 'F2'),
                         borderTopColor: theme.colors.border
