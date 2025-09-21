@@ -48,9 +48,10 @@ export default function Input({ setMessage }: {
                     height: inputHeight,
                     backgroundColor: theme.colors.surface,
                     textAlignVertical: 'top',
-                    borderRadius: theme.borderRadius.full,
+                    borderRadius: theme.borderRadius.md,
                     paddingVertical: ResponsiveUtils.scale(12),
                     lineHeight: lineHeight,
+                    elevation: 0
                 }}
                 value={text}
                 onChangeText={(newText) => setText(newText)}
