@@ -25,7 +25,7 @@ export default function App() {
     return (
         <SafeAreaProvider >
             <ThemeProvider value={themeContextValue}>
-                {/* <AppStatusBar /> */}
+                <AppStatusBar />
                 <NavigationContainer>
                     <Drawer.Navigator
                         screenOptions={{

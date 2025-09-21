@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { View, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView, TouchableNativeFeedback, TouchableHighlight, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { View, StyleSheet, TouchableNativeFeedback, TouchableHighlight } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import ThemeContext from '../context/ThemeContext'
@@ -19,31 +19,26 @@ export default function InputBox() {
     }
 
     return (
-        <View style={[styles.inputContainer, { backgroundColor: theme.colors.background, borderTopColor: theme.colors.border }]}>
+        <View style={[styles.inputContainer, { backgroundColor: theme.colors.background, borderTopColor: theme.colors.borderStrong }]}>
             <TouchableHighlight style={{
-                borderWidth: 1,
                 borderRadius: theme.borderRadius.full,
-                padding: ResponsiveUtils.scale(8),
-                backgroundColor: theme.colors.surface,
+                padding: ResponsiveUtils.scale(10),
+                backgroundColor: theme.colors.secondaryLight,
             }}>
-                <MaterialIcons name="multitrack-audio" size={ResponsiveUtils.scale(28)} color={theme.colors.textPrimary} />
+                <MaterialIcons name="multitrack-audio" size={ResponsiveUtils.scale(28)} color={theme.colors.textInverse} />
             </TouchableHighlight>
             <Input setMessage={setMessage} />
-            <View
-                style={{
-                    backgroundColor: theme.colors.primary,
-                    padding: ResponsiveUtils.scale(8),
-                    borderRadius: theme.borderRadius.full,
-                }}
+            <TouchableHighlight style={{
+                backgroundColor: theme.colors.primary,
+                borderRadius: theme.borderRadius.full,
+                padding: ResponsiveUtils.scale(10),
+                borderColor: theme.colors.primary,
+                borderWidth: 1
+            }}
+                onPress={handleSend}
             >
-                <TouchableNativeFeedback style={{
-                    backgroundColor: theme.colors.secondary,
-                }}
-                    onPress={handleSend}
-                >
-                    <MaterialIcons name="send" size={ResponsiveUtils.scale(28)} color={'white'} />
-                </TouchableNativeFeedback>
-            </View>
+                <MaterialIcons name="send" size={ResponsiveUtils.scale(28)} color={'white'} />
+            </TouchableHighlight>
         </View>
     )
 }
@@ -51,9 +46,11 @@ export default function InputBox() {
 const styles = StyleSheet.create({
     inputContainer: {
         borderWidth: 0,
+        borderTopWidth: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        gap: ResponsiveUtils.scale(6),
+        gap: ResponsiveUtils.scale(4),
         paddingHorizontal: ResponsiveUtils.scale(16),
         paddingTop: ResponsiveUtils.scale(12),
         paddingBottom: ResponsiveUtils.scale(24),

@@ -5,5 +5,5 @@ import ThemeContext from "../context/ThemeContext";
 
 export default function AppStatusBar() {
     const { theme } = useContext(ThemeContext)!;
-    return <StatusBar backgroundColor={theme.colors.background} style={theme.isDark ? 'light' : 'dark'} />;
+    return <StatusBar backgroundColor={theme.colors.background} style="light" />;
 }

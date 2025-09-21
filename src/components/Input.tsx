@@ -1,10 +1,9 @@
-import { useContext, useState, useEffect, useCallback } from "react"
-import { ScrollView, TextInput } from "react-native-gesture-handler"
+import { useContext, useState, useEffect } from "react"
+import { TextInput } from "react-native-gesture-handler"
 
 import ThemeContext from "../context/ThemeContext"
 
-import { componentStyles, shadows, ResponsiveUtils } from "../util/designSystem";
-import { Platform } from "react-native";
+import { componentStyles, ResponsiveUtils } from "../util/designSystem";
 
 
 export default function Input({ setMessage }: {
@@ -14,7 +13,6 @@ export default function Input({ setMessage }: {
 
     const { theme } = useContext(ThemeContext)!;
     const [inputHeight, setInputHeight] = useState(ResponsiveUtils.scale(44)); // Base height for single line
-
 
     // Calculate line height based on font size
     const lineHeight = ResponsiveUtils.scale(20);
@@ -40,31 +38,31 @@ export default function Input({ setMessage }: {
 
 
     return (
-        <ScrollView>
-            <TextInput
-                style={{
-                    ...componentStyles.input(theme),
-                    // width: Platform.OS === "web" ? "45%" : "85%",
-                    height: inputHeight,
-                    backgroundColor: theme.colors.surface,
-                    textAlignVertical: 'top',
-                    borderRadius: theme.borderRadius.md,
-                    paddingVertical: ResponsiveUtils.scale(12),
-                    lineHeight: lineHeight,
-                    elevation: 0
-                }}
-                value={text}
-                onChangeText={(newText) => setText(newText)}
+        <TextInput
+            style={{
+                ...componentStyles.input(theme),
+                width: ResponsiveUtils.wp(70),
+                height: inputHeight,
+                backgroundColor: theme.colors.surface,
+                textAlignVertical: 'top',
+                borderColor: theme.colors.textTertiary,
+                borderRadius: theme.borderRadius.md,
+                paddingVertical: ResponsiveUtils.scale(12),
+                paddingHorizontal: ResponsiveUtils.scale(16),
+                lineHeight: lineHeight,
+                elevation: 0
+            }}
+            value={text}
+            onChangeText={(newText) => setText(newText)}
 
-                onContentSizeChange={handleContentSizeChange}
-                multiline={true}
-                numberOfLines={3}
-                placeholder="Type your message..."
-                placeholderTextColor={theme.colors.textTertiary}
-                maxLength={1000}
-                returnKeyType="default"
-            />
-        </ScrollView>
+            onContentSizeChange={handleContentSizeChange}
+            multiline={true}
+            numberOfLines={3}
+            placeholder="Type your message..."
+            placeholderTextColor={theme.colors.textTertiary}
+            maxLength={1000}
+            returnKeyType="default"
+        />
     )
 }
 
