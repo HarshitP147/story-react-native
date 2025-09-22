@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import ThemeContext from '../context/ThemeContext';
 
-import { componentStyles, ResponsiveUtils, shadows } from '../util/designSystem'
+import { componentStyles, responsiveUtils, shadows } from '../util/designSystem'
 
 // A long list fake
 const messages = Array.from({ length: 100 }, (_, i) => `Message ${i + 1}`);
@@ -92,7 +92,7 @@ export default function MessageList() {
                     >
                         <Entypo
                             name="chevron-down"
-                            size={ResponsiveUtils.scale(28)}
+                            size={responsiveUtils.scale(28)}
                             color={theme.colors.textSecondary}
                         />
                     </TouchableOpacity>
@@ -108,24 +108,24 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     messageContainer: {
-        marginBottom: ResponsiveUtils.scale(12),
+        marginBottom: responsiveUtils.scale(12),
     },
     listContainer: {
-        padding: ResponsiveUtils.scale(16),
-        paddingBottom: ResponsiveUtils.scale(12), // Responsive bottom padding
+        padding: responsiveUtils.scale(16),
+        paddingBottom: responsiveUtils.scale(12), // Responsive bottom padding
     },
     scrollButtonContainer: {
         position: 'absolute',
-        bottom: ResponsiveUtils.scale(12), // Position above the input box
+        bottom: responsiveUtils.scale(12), // Position above the input box
         left: 0,
         right: 0,
         alignItems: 'center', // Center horizontally
         zIndex: 1000,
     },
     scrollButton: {
-        width: ResponsiveUtils.scale(40),
-        height: ResponsiveUtils.scale(40),
-        borderRadius: ResponsiveUtils.scale(28),
+        width: responsiveUtils.scale(40),
+        height: responsiveUtils.scale(40),
+        borderRadius: responsiveUtils.scale(28),
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 8,

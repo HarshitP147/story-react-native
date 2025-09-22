@@ -1,23 +1,28 @@
 import { useContext, useState, useEffect } from "react"
-import { TextInput } from "react-native-gesture-handler"
+import { View, TextInput, TouchableNativeFeedback } from "react-native";
+import Feather from '@expo/vector-icons/Feather';
 
 import ThemeContext from "../context/ThemeContext"
 
-import { componentStyles, ResponsiveUtils } from "../util/designSystem";
+import { componentStyles, responsiveUtils } from "../util/designSystem";
 
 
-export default function Input({ setMessage }: {
-    setMessage: (message: string) => void;
+export default function Input(props: {
+    setMessage: (message: string) => void,
+    placeHolder?: string,
+    password?: boolean,
+    eyeValidation?: boolean
 }) {
     const [text, setText] = useState('')
+    const [isPassword, showPassword] = useState(props.password)
 
     const { theme } = useContext(ThemeContext)!;
-    const [inputHeight, setInputHeight] = useState(ResponsiveUtils.scale(44)); // Base height for single line
+    const [inputHeight, setInputHeight] = useState(responsiveUtils.scale(44)); // Base height for single line
 
     // Calculate line height based on font size
-    const lineHeight = ResponsiveUtils.scale(20);
-    const minHeight = ResponsiveUtils.scale(44);
-    const maxHeight = lineHeight * 3 + ResponsiveUtils.scale(24); // 3 lines + padding
+    const lineHeight = responsiveUtils.scale(20);
+    const minHeight = responsiveUtils.scale(44);
+    const maxHeight = lineHeight * 3 + responsiveUtils.scale(24); // 3 lines + padding
 
     const handleContentSizeChange = (event: any) => {
         const { contentSize } = event.nativeEvent;
@@ -28,7 +33,7 @@ export default function Input({ setMessage }: {
 
     useEffect(() => {
         let timeout = setTimeout(() => {
-            setMessage(text)
+            props.setMessage(text)
         }, 500);
 
         return () => {
@@ -38,31 +43,55 @@ export default function Input({ setMessage }: {
 
 
     return (
-        <TextInput
-            style={{
-                ...componentStyles.input(theme),
-                width: ResponsiveUtils.wp(70),
-                height: inputHeight,
-                backgroundColor: theme.colors.surface,
-                textAlignVertical: 'top',
-                borderColor: theme.colors.textTertiary,
-                borderRadius: theme.borderRadius.md,
-                paddingVertical: ResponsiveUtils.scale(12),
-                paddingHorizontal: ResponsiveUtils.scale(16),
-                lineHeight: lineHeight,
-                elevation: 0
-            }}
-            value={text}
-            onChangeText={(newText) => setText(newText)}
+        <View style={{
+            position: 'relative',
+            width: responsiveUtils.wp(70),
+        }}>
+            <TextInput
+                style={{
+                    ...componentStyles.input(theme),
+                    width: '100%',
+                    height: inputHeight,
+                    backgroundColor: theme.colors.surface,
+                    textAlignVertical: 'top',
+                    borderColor: theme.colors.textTertiary,
+                    borderRadius: theme.borderRadius.md,
+                    paddingVertical: responsiveUtils.scale(12),
+                    paddingHorizontal: responsiveUtils.scale(16),
+                    paddingRight: (props.password && props.eyeValidation) ? responsiveUtils.scale(48) : responsiveUtils.scale(16), // Add space for icon only if eye is shown
+                    lineHeight: lineHeight,
+                    elevation: 0,
+                }}
+                value={text}
+                onChangeText={(newText) => setText(newText)}
+                onContentSizeChange={handleContentSizeChange}
+                multiline={!props.password} // Disable multiline for password inputs
+                secureTextEntry={isPassword}
+                numberOfLines={props.password ? 1 : 3}
+                placeholder={props.placeHolder || "Enter a message..."}
+                placeholderTextColor={theme.colors.textTertiary}
+                maxLength={1000}
+                returnKeyType="default"
+            />
+            {props.password && props.eyeValidation && (
+                <TouchableNativeFeedback onPress={() => showPassword(value => !value)}>
+                    <View style={{
+                        position: 'absolute',
+                        right: responsiveUtils.scale(12),
+                        top: '50%',
+                        transform: [{ translateY: -responsiveUtils.scale(12) }],
+                        padding: responsiveUtils.scale(4), // Add padding for better touch target
+                    }}>
+                        <Feather
+                            name={isPassword ? 'eye' : 'eye-off'}
+                            size={responsiveUtils.scale(20)}
+                            color={theme.colors.textSecondary}
+                        />
+                    </View>
+                </TouchableNativeFeedback>
 
-            onContentSizeChange={handleContentSizeChange}
-            multiline={true}
-            numberOfLines={3}
-            placeholder="Type your message..."
-            placeholderTextColor={theme.colors.textTertiary}
-            maxLength={1000}
-            returnKeyType="default"
-        />
+            )}
+        </View>
     )
 }
 

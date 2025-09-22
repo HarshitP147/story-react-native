@@ -11,7 +11,7 @@ const BASE_WIDTH = 393;
 const BASE_HEIGHT = 852;
 
 // Responsive scaling functions
-export const ResponsiveUtils = {
+export const responsiveUtils = {
     // Scale width relative to base design
     wp: (percentage: number): number => {
         const value = (percentage * SCREEN_WIDTH) / 100;
@@ -50,8 +50,8 @@ export const ResponsiveUtils = {
 
     // Responsive margins/paddings
     getResponsiveSpacing: (baseSize: number) => {
-        if (ResponsiveUtils.deviceInfo.isSmallDevice) return baseSize * 0.8;
-        if (ResponsiveUtils.deviceInfo.isLargeDevice) return baseSize * 1.1;
+        if (responsiveUtils.deviceInfo.isSmallDevice) return baseSize * 0.8;
+        if (responsiveUtils.deviceInfo.isLargeDevice) return baseSize * 1.1;
         return baseSize;
     },
 };
@@ -182,23 +182,23 @@ export const typography: TypographyConfig = {
 
 export const spacing: SpacingConfig = {
     // Responsive spacing scale - automatically adapts to screen size
-    xs: ResponsiveUtils.scale(4),
-    sm: ResponsiveUtils.scale(8),
-    md: ResponsiveUtils.scale(16),
-    lg: ResponsiveUtils.scale(24),
-    xl: ResponsiveUtils.scale(32),
-    '2xl': ResponsiveUtils.scale(40),
-    '3xl': ResponsiveUtils.scale(48),
-    '4xl': ResponsiveUtils.scale(64),
+    xs: responsiveUtils.scale(4),
+    sm: responsiveUtils.scale(8),
+    md: responsiveUtils.scale(16),
+    lg: responsiveUtils.scale(24),
+    xl: responsiveUtils.scale(32),
+    '2xl': responsiveUtils.scale(40),
+    '3xl': responsiveUtils.scale(48),
+    '4xl': responsiveUtils.scale(64),
 };
 
 export const borderRadius: BorderRadiusConfig = {
     none: 0,
-    sm: ResponsiveUtils.scale(4),
-    md: ResponsiveUtils.scale(8),
-    lg: ResponsiveUtils.scale(12),
-    xl: ResponsiveUtils.scale(16),
-    '2xl': ResponsiveUtils.scale(20),
+    sm: responsiveUtils.scale(4),
+    md: responsiveUtils.scale(8),
+    lg: responsiveUtils.scale(12),
+    xl: responsiveUtils.scale(16),
+    '2xl': responsiveUtils.scale(20),
     full: 9999,
 };
 

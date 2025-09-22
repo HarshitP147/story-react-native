@@ -115,3 +115,8 @@ export interface Theme {
     };
     isDark: boolean;
 }
+
+export interface OAuthButtonProps {
+    auth: "google" | "apple",
+    type: "login" | "signup"
+}

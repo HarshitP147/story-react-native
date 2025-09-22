@@ -6,7 +6,7 @@ import ThemeContext from '../context/ThemeContext'
 
 import Input from '../components/Input'
 
-import { ResponsiveUtils } from '../util/designSystem'
+import { responsiveUtils } from '../util/designSystem'
 
 
 export default function InputBox() {
@@ -22,22 +22,22 @@ export default function InputBox() {
         <View style={[styles.inputContainer, { backgroundColor: theme.colors.background, borderTopColor: theme.colors.borderStrong }]}>
             <TouchableHighlight style={{
                 borderRadius: theme.borderRadius.full,
-                padding: ResponsiveUtils.scale(10),
+                padding: responsiveUtils.scale(10),
                 backgroundColor: theme.colors.secondaryLight,
             }}>
-                <MaterialIcons name="multitrack-audio" size={ResponsiveUtils.scale(28)} color={theme.colors.textInverse} />
+                <MaterialIcons name="multitrack-audio" size={responsiveUtils.scale(28)} color={theme.colors.textInverse} />
             </TouchableHighlight>
             <Input setMessage={setMessage} />
             <TouchableHighlight style={{
                 backgroundColor: theme.colors.primary,
                 borderRadius: theme.borderRadius.full,
-                padding: ResponsiveUtils.scale(10),
+                padding: responsiveUtils.scale(10),
                 borderColor: theme.colors.primary,
                 borderWidth: 1
             }}
                 onPress={handleSend}
             >
-                <MaterialIcons name="send" size={ResponsiveUtils.scale(28)} color={'white'} />
+                <MaterialIcons name="send" size={responsiveUtils.scale(28)} color={'white'} />
             </TouchableHighlight>
         </View>
     )
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: ResponsiveUtils.scale(4),
-        paddingHorizontal: ResponsiveUtils.scale(16),
-        paddingTop: ResponsiveUtils.scale(12),
-        paddingBottom: ResponsiveUtils.scale(24),
+        gap: responsiveUtils.scale(4),
+        paddingHorizontal: responsiveUtils.scale(16),
+        paddingTop: responsiveUtils.scale(12),
+        paddingBottom: responsiveUtils.scale(24),
     }
 });

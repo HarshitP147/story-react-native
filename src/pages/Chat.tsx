@@ -5,9 +5,10 @@ import { BlurView } from 'expo-blur';
 
 import MessageList from '../layout/MessageList';
 
-import { componentStyles, shadows, ResponsiveUtils } from '../util/designSystem'
+import { componentStyles, shadows, responsiveUtils } from '../util/designSystem'
 
 import { type Theme } from '../util/types';
+import Input from '../components/Input';
 
 
 
@@ -26,7 +27,7 @@ export default function Chat({ theme }: { theme: Theme }) {
             <KeyboardAvoidingView
                 style={styles.keyboardContainer}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : ResponsiveUtils.scale(20)}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : responsiveUtils.scale(20)}
             >
                 <View style={styles.chatContainer}>
                     <MessageList />
@@ -34,17 +35,7 @@ export default function Chat({ theme }: { theme: Theme }) {
                         // backgroundColor: theme.colors.surface + (theme.isDark ? '20' : 'F2'),
                         borderTopColor: theme.colors.border
                     }]}>
-                        <TextInput
-                            placeholder='Type your message...'
-                            placeholderTextColor={theme.colors.textTertiary}
-                            style={[componentStyles.input(theme), styles.input]}
-                            value={input}
-                            onChangeText={setInput}
-                            onSubmitEditing={handleSend}
-                            returnKeyType="send"
-                            multiline={false}
-                        // blurOnSubmit={true}
-                        />
+                        <Input setMessage={setInput} placeHolder={"Is this working?"} />
                         <TouchableOpacity onPress={handleSend} style={[componentStyles.button.primary(theme), styles.sendButton]}>
                             <Text style={[componentStyles.text.body(theme), { color: theme.colors.textInverse, fontWeight: '600' }]}>
                                 Send
@@ -70,23 +61,19 @@ const styles = StyleSheet.create({
     },
     inputRow: {
         position: 'absolute',
-        bottom: ResponsiveUtils.scale(16), // Responsive positioning
-        left: ResponsiveUtils.scale(16),
-        right: ResponsiveUtils.scale(16),
+        bottom: responsiveUtils.scale(16), // Responsive positioning
+        left: responsiveUtils.scale(16),
+        right: responsiveUtils.scale(16),
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: ResponsiveUtils.scale(16),
-        paddingVertical: ResponsiveUtils.scale(12),
+        paddingHorizontal: responsiveUtils.scale(16),
+        paddingVertical: responsiveUtils.scale(12),
         borderTopWidth: 1,
-        borderRadius: ResponsiveUtils.scale(20), // Rounded corners for floating effect
+        borderRadius: responsiveUtils.scale(20), // Rounded corners for floating effect
         backgroundColor: 'transparent',
         ...shadows.lg, // Stronger shadow for better floating effect
     },
-    input: {
-        flex: 1,
-        marginRight: ResponsiveUtils.scale(12),
-    },
     sendButton: {
-        minWidth: ResponsiveUtils.scale(60),
+        minWidth: responsiveUtils.scale(60),
     },
 })

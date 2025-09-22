@@ -7,11 +7,12 @@ import { createDrawerNavigator, } from '@react-navigation/drawer';
 import ThemeContext, { ThemeProvider } from './src/context/ThemeContext'
 
 import Chat from './src/screens/Chat'
-import Auth from './src/pages/Auth';
+import Login from './src/pages/Login';
 import AppStatusBar from './src/components/AppStatusBar';
 import DrawerContent from './src/components/DrawerContent';
 
 import { createTheme } from './src/util/designSystem'
+import Signup from './src/pages/Signup';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,9 +41,9 @@ function DrawerPage() {
 
 
 export default function App() {
-    const [darkTheme, setDarkTheme] = useState(false);
+    const [darkTheme, setDarkTheme] = useState(true);
 
-    const isSignedIn = false;
+    const isSignedIn = true;
 
     const themeContextValue = {
         theme: createTheme(darkTheme),
@@ -58,7 +59,10 @@ export default function App() {
                         {isSignedIn ? (
                             <Stack.Screen name="Main" component={DrawerPage} options={{ headerShown: false }} />
                         ) : (
-                            <Stack.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
+                            <>
+                                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                                <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+                            </>
                         )}
                     </Stack.Navigator>
                 </NavigationContainer>
