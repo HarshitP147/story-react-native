@@ -1,17 +1,17 @@
 import { useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native"
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import ThemeContext from '../context/ThemeContext';
 
 import supabase from '../api/supabase';
 
-import OAuthButton from '../components/OAuthButton';
-import Input from '../components/Input';
+import OAuthButton from '../components/small/OAuthButton';
+import AuthButton from '../components/small/AuthButton';
+import Input from '../components/small/Input';
 
-import { typography, responsiveUtils, spacing, } from '../util/designSystem'
+import { typography, responsiveUtils, spacing, shadows, } from '../util/designSystem'
 
 
 export default function Login() {
@@ -19,51 +19,84 @@ export default function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation();
+
+    // Check if credentials are fully entered
+    const isFormValid = email.trim() !== '' && password.trim() !== '';
+
+    const handleLogin = async () => {
+        setIsLoading(true);
+        // Add your login logic here
+        // Example:
+        // try {
+        //     await supabase.auth.signInWithPassword({ email, password });
+        // } catch (error) {
+        //     console.error('Login error:', error);
+        // } finally {
+        //     setIsLoading(false);
+        // }
+        
+        // For now, just simulate loading
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    };
 
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+            <KeyboardAvoidingView 
+                style={styles.keyboardContainer}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : responsiveUtils.scale(20)}
+            >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.container}>
 
-                    <Text style={[styles.authMessage, { color: theme.colors.textPrimary }]}>Login to your account</Text>
+                        <Text style={[styles.authMessage, { color: theme.colors.textPrimary }]}>Login to your account</Text>
 
-                    <View style={styles.credentialsContainer} >
+                        <View style={styles.credentialsContainer} >
 
-                        <Input setMessage={setEmail} placeHolder='Your email' />
-                        {/* <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation /> */}
-                        <Input setMessage={setPassword} placeHolder='Your password' password />
+                            <Input setMessage={setEmail} placeHolder='Your email' />
+                            {/* <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation /> */}
+                            <Input setMessage={setPassword} placeHolder='Your password' password />
 
+                            <AuthButton 
+                                type='login' 
+                                onPress={handleLogin} 
+                                disabled={!isFormValid}
+                                loading={isLoading}
+                            />
+                        </View>
+
+                        <View
+                            style={{
+                                marginVertical: spacing['xl'],
+                                borderBottomColor: theme.colors.textSecondary,
+                                borderBottomWidth: StyleSheet.hairlineWidth,
+                                width: responsiveUtils.wp(80),
+                                marginHorizontal: 'auto',
+                            }}
+                        />
+
+                        <View style={styles.authProviders}>
+                            <OAuthButton auth='google' type='login' />
+                        </View>
+
+                        <Text onPress={() => navigation.navigate("Signup")} style={{ color: theme.colors.info, ...styles.link }}>Don't have an account? Sign up</Text>
                     </View>
-
-                    <View
-                        style={{
-                            marginVertical: spacing['xl'],
-                            borderBottomColor: theme.colors.textSecondary,
-                            borderBottomWidth: StyleSheet.hairlineWidth,
-                            width: responsiveUtils.wp(80),
-                            marginHorizontal: 'auto',
-                        }}
-                    />
-
-                    <View style={styles.authProviders}>
-                        <OAuthButton auth='google' type='login' />
-                        <OAuthButton auth='apple' type='login' />
-                    </View>
-
-                    <Text onPress={() => navigation.navigate("Signup")} style={{ color: theme.colors.info, ...styles.link }}>Don't have an account? Sign up</Text>
-                </View>
-
-
-            </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </SafeAreaView >
     )
 }
 
 const styles = StyleSheet.create({
+    keyboardContainer: {
+        flex: 1,
+    },
     container: {
         flex: 1,
     },
@@ -78,9 +111,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         gap: spacing.md,
         marginTop: spacing['2xl'],
-        width: responsiveUtils.wp(80),
         marginHorizontal: 'auto',
-
     },
     authProviders: {
         display: 'flex',

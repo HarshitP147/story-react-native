@@ -118,5 +118,22 @@ export interface Theme {
 
 export interface OAuthButtonProps {
     auth: "google" | "apple",
-    type: "login" | "signup"
+    type: "login" | "signup",
+}
+
+export interface SwitchProps {
+    value: boolean;
+    onValueChange: (value: boolean) => void;
+    theme: {
+        colors: {
+            border: string;
+            primary: string;
+            surface: string;
+            shadowLight: string;
+            shadowDark: string;
+        };
+        isDark: boolean;
+    };
+    size?: 'small' | 'medium' | 'large';
+    disabled?: boolean;
 }

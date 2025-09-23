@@ -7,8 +7,9 @@ import ThemeContext from '../context/ThemeContext';
 
 import supabase from '../api/supabase';
 
-import OAuthButton from '../components/OAuthButton';
-import Input from '../components/Input';
+import OAuthButton from '../components/small/OAuthButton';
+import AuthButton from '../components/small/AuthButton';
+import Input from '../components/small/Input';
 
 import { typography, responsiveUtils, spacing, } from '../util/designSystem'
 
@@ -18,8 +19,31 @@ export default function Signup() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation();
+
+    // Check if all credentials are fully entered
+    const isFormValid = email.trim() !== '' && password.trim() !== '' && confirmPassword.trim() !== '';
+
+    const handleSignup = async () => {
+        setIsLoading(true);
+        // Add your signup logic here
+        // Example:
+        // try {
+        //     await supabase.auth.signUp({ email, password });
+        // } catch (error) {
+        //     console.error('Signup error:', error);
+        // } finally {
+        //     setIsLoading(false);
+        // }
+        
+        // For now, just simulate loading
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    };
 
 
     return (
@@ -33,7 +57,14 @@ export default function Signup() {
 
                         <Input setMessage={setEmail} placeHolder='Your email' />
                         <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation />
-                        <Input setMessage={setPassword} placeHolder='Confirm password' password />
+                        <Input setMessage={setConfirmPassword} placeHolder='Confirm password' password />
+
+                        <AuthButton 
+                            type='signup' 
+                            onPress={handleSignup} 
+                            disabled={!isFormValid}
+                            loading={isLoading}
+                        />
 
                     </View>
 
@@ -48,8 +79,8 @@ export default function Signup() {
                     />
 
                     <View style={styles.authProviders}>
-                        <OAuthButton auth='google' type='signup' />
-                        <OAuthButton auth='apple' type='signup' />
+                        <OAuthButton auth='google' type='signup'  />
+                        {/* <OAuthButton auth='apple' type='signup' /> */}
                     </View>
 
                     <Text onPress={() => navigation.navigate("Login")} style={{ color: theme.colors.info, ...styles.link }}>Already have an account? Log in</Text>
@@ -76,7 +107,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         gap: spacing.md,
         marginTop: spacing['2xl'],
-        width: responsiveUtils.wp(80),
         marginHorizontal: 'auto',
 
     },

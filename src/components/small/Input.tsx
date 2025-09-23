@@ -2,9 +2,9 @@ import { useContext, useState, useEffect } from "react"
 import { View, TextInput, TouchableNativeFeedback } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 
-import ThemeContext from "../context/ThemeContext"
+import ThemeContext from "../../context/ThemeContext"
 
-import { componentStyles, responsiveUtils } from "../util/designSystem";
+import { componentStyles, responsiveUtils } from "../../util/designSystem";
 
 
 export default function Input(props: {

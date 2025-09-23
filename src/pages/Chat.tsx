@@ -8,7 +8,7 @@ import MessageList from '../layout/MessageList';
 import { componentStyles, shadows, responsiveUtils } from '../util/designSystem'
 
 import { type Theme } from '../util/types';
-import Input from '../components/Input';
+import Input from '../components/small/Input';
 
 
 

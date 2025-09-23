@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
 import { Entypo } from '@expo/vector-icons';
@@ -58,10 +58,10 @@ export default function MessageList() {
                 renderItem={({ item }) => {
                     const number = parseInt(item.split(' ')[1]);
                     // Alternate message background colors
-                    const backgroundColor = number % 2 === 0 ? theme.colors.secondaryLight : theme.colors.primaryLight;
+                    const backgroundColor = number % 2 === 0 ? theme.colors.secondaryLight : theme.colors.primaryDark;
                     return (
                         <View style={[componentStyles.card(theme), styles.messageContainer, { backgroundColor }]}>
-                            <Text style={componentStyles.text.body(theme)}>
+                            <Text style={[componentStyles.text.body(theme), { color: theme.colors.textInverse }]}>
                                 {item}
                             </Text>
                         </View>

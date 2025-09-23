@@ -9,7 +9,9 @@ import Animated, {
     runOnJS,
 } from 'react-native-reanimated';
 
-import type { SwitchProps } from '../util/types';
+import type { SwitchProps } from '../../util/types';
+
+
 
 export const Switch: React.FC<SwitchProps> = ({
     value,

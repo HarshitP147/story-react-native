@@ -1,12 +1,12 @@
 import { useState, useContext } from 'react'
-import { View, StyleSheet, TouchableNativeFeedback, TouchableHighlight } from 'react-native'
+import { View, StyleSheet, TouchableHighlight } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import ThemeContext from '../context/ThemeContext'
+import ThemeContext from '../../context/ThemeContext'
 
-import Input from '../components/Input'
+import Input from '../small/Input'
 
-import { responsiveUtils } from '../util/designSystem'
+import { responsiveUtils } from '../../util/designSystem'
 
 
 export default function InputBox() {

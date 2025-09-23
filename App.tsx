@@ -8,8 +8,8 @@ import ThemeContext, { ThemeProvider } from './src/context/ThemeContext'
 
 import Chat from './src/screens/Chat'
 import Login from './src/pages/Login';
-import AppStatusBar from './src/components/AppStatusBar';
-import DrawerContent from './src/components/DrawerContent';
+import AppStatusBar from './src/components/small/AppStatusBar';
+import DrawerContent from './src/components/large/DrawerContent';
 
 import { createTheme } from './src/util/designSystem'
 import Signup from './src/pages/Signup';
@@ -41,9 +41,9 @@ function DrawerPage() {
 
 
 export default function App() {
-    const [darkTheme, setDarkTheme] = useState(true);
+    const [darkTheme, setDarkTheme] = useState(false);
 
-    const isSignedIn = true;
+    const isSignedIn = false;
 
     const themeContextValue = {
         theme: createTheme(darkTheme),
