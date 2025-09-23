@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react';
+import { use, useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { useNavigation } from "@react-navigation/native"
 
 import ThemeContext from '../context/ThemeContext';
@@ -38,12 +39,20 @@ export default function Signup() {
         // } finally {
         //     setIsLoading(false);
         // }
-        
+
         // For now, just simulate loading
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);
     };
+
+    const keyboard = useAnimatedKeyboard();
+
+    const animatedStyles = useAnimatedStyle(() => ({
+        transform: [{
+            translateY: -keyboard.height.value / 2
+        }]
+    }));
 
 
     return (
@@ -51,22 +60,26 @@ export default function Signup() {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
 
-                    <Text style={[styles.authMessage, { color: theme.colors.textPrimary }]}>Create a new account</Text>
+                    <Animated.View style={animatedStyles}>
+                        <Text style={[styles.authMessage, { color: theme.colors.textPrimary }]}>Create a new account</Text>
 
-                    <View style={styles.credentialsContainer} >
 
-                        <Input setMessage={setEmail} placeHolder='Your email' />
-                        <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation />
-                        <Input setMessage={setConfirmPassword} placeHolder='Confirm password' password />
 
-                        <AuthButton 
-                            type='signup' 
-                            onPress={handleSignup} 
-                            disabled={!isFormValid}
-                            loading={isLoading}
-                        />
+                        <View style={styles.credentialsContainer} >
 
-                    </View>
+                            <Input setMessage={setEmail} placeHolder='Your email' />
+                            <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation />
+                            <Input setMessage={setConfirmPassword} placeHolder='Confirm password' password />
+
+                            <AuthButton
+                                type='signup'
+                                onPress={handleSignup}
+                                disabled={!isFormValid}
+                                loading={isLoading}
+                            />
+
+                        </View>
+                    </Animated.View>
 
                     <View
                         style={{
@@ -79,7 +92,7 @@ export default function Signup() {
                     />
 
                     <View style={styles.authProviders}>
-                        <OAuthButton auth='google' type='signup'  />
+                        <OAuthButton auth='google' type='signup' />
                         {/* <OAuthButton auth='apple' type='signup' /> */}
                     </View>
 

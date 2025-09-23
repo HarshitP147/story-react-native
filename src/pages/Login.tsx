@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { useNavigation } from "@react-navigation/native"
 
 import ThemeContext from '../context/ThemeContext';
@@ -37,68 +38,72 @@ export default function Login() {
         // } finally {
         //     setIsLoading(false);
         // }
-        
+
         // For now, just simulate loading
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);
     };
 
+    const keyboard = useAnimatedKeyboard();
+
+    const animatedStyles = useAnimatedStyle(() => ({
+        transform: [{
+            translateY: -keyboard.height.value / 2
+        }]
+    }));
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <KeyboardAvoidingView 
-                style={styles.keyboardContainer}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : responsiveUtils.scale(20)}
-            >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+
+                    <Animated.View style={animatedStyles}>
 
                         <Text style={[styles.authMessage, { color: theme.colors.textPrimary }]}>Login to your account</Text>
 
                         <View style={styles.credentialsContainer} >
 
                             <Input setMessage={setEmail} placeHolder='Your email' />
-                            {/* <Input setMessage={setPassword} placeHolder='Your password' password eyeValidation /> */}
                             <Input setMessage={setPassword} placeHolder='Your password' password />
 
-                            <AuthButton 
-                                type='login' 
-                                onPress={handleLogin} 
+                            <AuthButton
+                                type='login'
+                                onPress={handleLogin}
                                 disabled={!isFormValid}
                                 loading={isLoading}
                             />
                         </View>
+                    </Animated.View>
 
-                        <View
-                            style={{
-                                marginVertical: spacing['xl'],
-                                borderBottomColor: theme.colors.textSecondary,
-                                borderBottomWidth: StyleSheet.hairlineWidth,
-                                width: responsiveUtils.wp(80),
-                                marginHorizontal: 'auto',
-                            }}
-                        />
+                    <View
+                        style={{
+                            marginVertical: spacing['xl'],
+                            borderBottomColor: theme.colors.textSecondary,
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            width: responsiveUtils.wp(80),
+                            marginHorizontal: 'auto',
+                        }}
+                    />
 
-                        <View style={styles.authProviders}>
-                            <OAuthButton auth='google' type='login' />
-                        </View>
-
-                        <Text onPress={() => navigation.navigate("Signup")} style={{ color: theme.colors.info, ...styles.link }}>Don't have an account? Sign up</Text>
+                    <View style={styles.authProviders}>
+                        <OAuthButton auth='google' type='login' />
                     </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+
+                    <Text onPress={() => navigation.navigate("Signup")} style={{ color: theme.colors.info, ...styles.link }}>Don't have an account? Sign up</Text>
+                </View>
+            </TouchableWithoutFeedback>
         </SafeAreaView >
     )
 }
 
 const styles = StyleSheet.create({
-    keyboardContainer: {
-        flex: 1,
-    },
     container: {
         flex: 1,
+    },
+    keyboardContainer: {
+        position: 'static',
+        marginBottom: Keyboard.isVisible() ? responsiveUtils.hp(10) : 0,
     },
     authMessage: {
         fontSize: typography.fontSize['3xl'] * 1.2,
