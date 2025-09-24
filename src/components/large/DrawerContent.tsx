@@ -1,17 +1,21 @@
 // Updated DrawerContent.tsx using the custom switch
 import { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import ThemeContext from "../../context/ThemeContext";
+import AuthContext from "../../context/AuthContext";
 
 import Switch from "../small/Switch";
 
-import { responsiveUtils, shadows } from "../../util/designSystem";
+import { responsiveUtils, borderRadius, spacing, typography } from "../../util/designSystem";
 
 
 export default function DrawerContent() {
     const { theme, toggleTheme } = useContext(ThemeContext)!;
+
+    const { signOut } = useContext(AuthContext);
 
     return (
         <SafeAreaView style={[styles.container, {
@@ -42,6 +46,25 @@ export default function DrawerContent() {
                     size="medium"
                 />
             </View>
+
+            <TouchableHighlight style={[styles.signout, {
+                backgroundColor: theme.colors.error,
+            }]}
+                onPress={signOut}
+            >
+                <View style={styles.signoutContainer}>
+                    {/* Sign out button - implement sign out logic as needed */}
+                    <MaterialIcons name="logout" size={responsiveUtils.scale(24)} color={theme.colors.textInverse} />
+                    <Text style={{
+                        color: theme.colors.textInverse,
+                        fontWeight: theme.typography.fontWeight.semibold as any,
+
+                    }}>
+                        Sign out
+                    </Text>
+                </View>
+            </TouchableHighlight>
+
         </SafeAreaView>
     );
 }
@@ -53,10 +76,12 @@ const styles = StyleSheet.create({
         height: 'auto',
         borderRightWidth: 1,
         paddingHorizontal: 15,
+        justifyContent: 'space-between',
     },
     menuText: {
-        fontSize: 18,
-        marginVertical: 20,
+        fontSize: typography.fontSize.lg,
+        marginVertical: spacing.xs,
+        marginHorizontal: 'auto',
     },
     themeToggleRow: {
         display: 'flex',
@@ -68,4 +93,19 @@ const styles = StyleSheet.create({
     themeToggleText: {
         fontSize: 16, // Default font size
     },
+    signoutContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: spacing.lg,
+        paddingVertical: spacing.xs,
+    },
+    signout: {
+        fontSize: typography.fontSize.lg,
+        borderRadius: borderRadius.md,
+        textAlign: 'center',
+        marginBottom: spacing.md,
+        paddingVertical: spacing.sm,
+    }
 });

@@ -1,5 +1,5 @@
 import { use, useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { useNavigation } from "@react-navigation/native"
@@ -22,6 +22,7 @@ export default function Signup() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    // const [isOAuthLoading, setIsOAuthLoading] = useState(false)
 
     const navigation = useNavigation();
 
@@ -29,22 +30,72 @@ export default function Signup() {
     const isFormValid = email.trim() !== '' && password.trim() !== '' && confirmPassword.trim() !== '';
 
     const handleSignup = async () => {
-        setIsLoading(true);
-        // Add your signup logic here
-        // Example:
-        // try {
-        //     await supabase.auth.signUp({ email, password });
-        // } catch (error) {
-        //     console.error('Signup error:', error);
-        // } finally {
-        //     setIsLoading(false);
-        // }
+        // Basic validation
+        if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+            Alert.alert('Validation Error', 'Please fill in all fields');
+            return;
+        }
 
-        // For now, just simulate loading
-        setTimeout(() => {
+        if (password !== confirmPassword) {
+            Alert.alert('Validation Error', 'Passwords do not match');
+            return;
+        }
+
+        if (password.length < 6) {
+            Alert.alert('Validation Error', 'Password must be at least 6 characters long');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            Alert.alert('Validation Error', 'Please enter a valid email address');
+            return;
+        }
+
+        setIsLoading(true);
+        
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: email.trim(),
+                password: password,
+            });
+
+            if (error) {
+                Alert.alert('Signup Failed', error.message);
+                return;
+            }
+
+            if (data.user && !data.user.email_confirmed_at) {
+                Alert.alert(
+                    'Check Your Email', 
+                    'Please check your email and click the confirmation link to complete your registration.',
+                    [{ text: 'OK', onPress: () => console.log('Email confirmation reminder shown') }]
+                );
+            } else if (data.user) {
+                Alert.alert(
+                    'Success', 
+                    'Account created successfully! You can now log in.',
+                    [{ text: 'OK', onPress: () => {
+                        // Clear form
+                        setEmail('');
+                        setPassword('');
+                        setConfirmPassword('');
+                        // Navigate to login - you'll need to handle navigation properly
+                        console.log('Navigate to login');
+                    }}]
+                );
+            }
+
+        } catch (error) {
+            console.error('Signup error:', error);
+            Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+        } finally {
             setIsLoading(false);
-        }, 2000);
+        }
     };
+
+
 
     const keyboard = useAnimatedKeyboard();
 
@@ -80,21 +131,6 @@ export default function Signup() {
 
                         </View>
                     </Animated.View>
-
-                    <View
-                        style={{
-                            marginVertical: spacing['xl'],
-                            borderBottomColor: theme.colors.textSecondary,
-                            borderBottomWidth: StyleSheet.hairlineWidth,
-                            width: responsiveUtils.wp(80),
-                            marginHorizontal: 'auto',
-                        }}
-                    />
-
-                    <View style={styles.authProviders}>
-                        <OAuthButton auth='google' type='signup' />
-                        {/* <OAuthButton auth='apple' type='signup' /> */}
-                    </View>
 
                     <Text onPress={() => navigation.navigate("Login")} style={{ color: theme.colors.info, ...styles.link }}>Already have an account? Log in</Text>
                 </View>

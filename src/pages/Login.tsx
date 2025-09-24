@@ -13,10 +13,12 @@ import AuthButton from '../components/small/AuthButton';
 import Input from '../components/small/Input';
 
 import { typography, responsiveUtils, spacing, shadows, } from '../util/designSystem'
+import AuthContext from '../context/AuthContext';
 
 
 export default function Login() {
     const { theme } = useContext(ThemeContext)!;
+    const { signIn, } = useContext(AuthContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -31,18 +33,15 @@ export default function Login() {
         setIsLoading(true);
         // Add your login logic here
         // Example:
-        // try {
-        //     await supabase.auth.signInWithPassword({ email, password });
-        // } catch (error) {
-        //     console.error('Login error:', error);
-        // } finally {
-        //     setIsLoading(false);
-        // }
-
-        // For now, just simulate loading
-        setTimeout(() => {
+        try {
+            await supabase.auth.signInWithPassword({ email, password });
+            signIn(email);
+        } catch (error) {
+            console.error('Login error:', error);
+        } finally {
             setIsLoading(false);
-        }, 2000);
+        }
+
     };
 
     const keyboard = useAnimatedKeyboard();
@@ -75,20 +74,6 @@ export default function Login() {
                             />
                         </View>
                     </Animated.View>
-
-                    <View
-                        style={{
-                            marginVertical: spacing['xl'],
-                            borderBottomColor: theme.colors.textSecondary,
-                            borderBottomWidth: StyleSheet.hairlineWidth,
-                            width: responsiveUtils.wp(80),
-                            marginHorizontal: 'auto',
-                        }}
-                    />
-
-                    <View style={styles.authProviders}>
-                        <OAuthButton auth='google' type='login' />
-                    </View>
 
                     <Text onPress={() => navigation.navigate("Signup")} style={{ color: theme.colors.info, ...styles.link }}>Don't have an account? Sign up</Text>
                 </View>

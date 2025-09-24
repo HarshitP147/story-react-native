@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 import ThemeContext from '../../context/ThemeContext'
@@ -7,6 +7,7 @@ import ThemeContext from '../../context/ThemeContext'
 import { borderRadius, responsiveUtils, shadows, spacing, typography } from "../../util/designSystem"
 
 import type { OAuthButtonProps } from '../../util/types';
+import supabase from '../../api/supabase';
 
 
 export default function OAuthButton(props: OAuthButtonProps) {
@@ -18,14 +19,36 @@ export default function OAuthButton(props: OAuthButtonProps) {
     const textColor = theme.isDark ? theme.colors.textPrimary : theme.colors.textInverse;
     // const isDisabled = props.loading;
 
-    function handlePress() {
+    const handlePress = async () => {
         setIsLoading(true);
-        // Handle OAuth login/signup logic here
 
-        setTimeout(() => {
+        try {
+
+
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    scopes: 'email profile',
+                }
+            })
+
+            console.log("Google OAuth response:", data, error);
+
+            if (error) {
+                Alert.alert('Signup Failed', error.message);
+                return;
+            }
+
+            // OAuth will handle the redirect, so this might not be reached immediately
+            console.log('Google signup initiated:', data);
+
+        } catch (error) {
+            console.error('Google signup error:', error);
+            Alert.alert('Error', 'An unexpected error occurred with Google signup. Please try again.');
+        } finally {
             setIsLoading(false);
-        }, 2000);
-    }
+        }
+    };
 
     return (
         <TouchableHighlight
