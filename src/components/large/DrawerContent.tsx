@@ -29,43 +29,47 @@ export default function DrawerContent() {
                 Menu
             </Text>
 
-            <View style={[styles.themeToggleRow, {
-                paddingVertical: theme.spacing.sm,
-            }]}>
-                <Text style={[styles.themeToggleText, {
-                    color: theme.colors.textPrimary,
-                    fontSize: theme.typography.fontSize.base,
+            <View>
+                <View style={[styles.themeToggleRow, {
+                    paddingVertical: theme.spacing.sm,
                 }]}>
-                    Dark theme
-                </Text>
 
-                <Switch
-                    value={theme.isDark}
-                    onValueChange={toggleTheme}
-                    theme={theme}
-                    size="medium"
-                />
+                    <Text style={[styles.themeToggleText, {
+                        color: theme.colors.textPrimary,
+                        fontSize: theme.typography.fontSize.base,
+                    }]}>
+                        Dark theme
+                    </Text>
+
+                    <Switch
+                        value={theme.isDark}
+                        onValueChange={toggleTheme}
+                        theme={theme}
+                        size="medium"
+                    />
+                </View>
+
+                <TouchableHighlight style={[styles.signout, {
+                    backgroundColor: theme.colors.error,
+                }]}
+                    onPress={signOut}
+                >
+                    <View style={styles.signoutContainer}>
+                        {/* Sign out button - implement sign out logic as needed */}
+                        <MaterialIcons name="logout" size={responsiveUtils.scale(24)} color={theme.colors.textInverse} />
+                        <Text style={{
+                            color: theme.colors.textInverse,
+                            fontWeight: theme.typography.fontWeight.semibold as any,
+
+                        }}>
+                            Sign out
+                        </Text>
+                    </View>
+
+                </TouchableHighlight>
             </View>
 
-            <TouchableHighlight style={[styles.signout, {
-                backgroundColor: theme.colors.error,
-            }]}
-                onPress={signOut}
-            >
-                <View style={styles.signoutContainer}>
-                    {/* Sign out button - implement sign out logic as needed */}
-                    <MaterialIcons name="logout" size={responsiveUtils.scale(24)} color={theme.colors.textInverse} />
-                    <Text style={{
-                        color: theme.colors.textInverse,
-                        fontWeight: theme.typography.fontWeight.semibold as any,
-
-                    }}>
-                        Sign out
-                    </Text>
-                </View>
-            </TouchableHighlight>
-
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
 
@@ -75,8 +79,9 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 'auto',
         borderRightWidth: 1,
-        paddingHorizontal: 15,
+        paddingHorizontal: spacing.md,
         justifyContent: 'space-between',
+        gap: spacing['lg'],
     },
     menuText: {
         fontSize: typography.fontSize.lg,
@@ -88,10 +93,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 10, // Default spacing
+        paddingVertical: spacing.md, // Default spacing
+        marginBottom: spacing.lg,
     },
     themeToggleText: {
-        fontSize: 16, // Default font size
+        fontSize: typography.fontSize.base, // Default font size
     },
     signoutContainer: {
         display: 'flex',

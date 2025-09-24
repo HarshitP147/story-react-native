@@ -12,59 +12,34 @@ import supabase from '../../api/supabase';
 
 export default function OAuthButton(props: OAuthButtonProps) {
     const [isPressed, setPressed] = useState(false);
-    const [loading, setIsLoading] = useState(false);
 
     const { theme } = useContext(ThemeContext)!;
 
     const textColor = theme.isDark ? theme.colors.textPrimary : theme.colors.textInverse;
-    // const isDisabled = props.loading;
+    const isDisabled = props.loading;
 
     const handlePress = async () => {
-        setIsLoading(true);
-
-        try {
-
-
-            const { data, error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    scopes: 'email profile',
-                }
-            })
-
-            console.log("Google OAuth response:", data, error);
-
-            if (error) {
-                Alert.alert('Signup Failed', error.message);
-                return;
-            }
-
-            // OAuth will handle the redirect, so this might not be reached immediately
-            console.log('Google signup initiated:', data);
-
-        } catch (error) {
-            console.error('Google signup error:', error);
-            Alert.alert('Error', 'An unexpected error occurred with Google signup. Please try again.');
-        } finally {
-            setIsLoading(false);
+        if (props.onPress) {
+            await props.onPress();
         }
     };
 
     return (
         <TouchableHighlight
-            onPressIn={() => setPressed(true)}
-            onPressOut={() => setPressed(false)}
+            onPressIn={() => !isDisabled && setPressed(true)}
+            onPressOut={() => !isDisabled && setPressed(false)}
             onPress={handlePress}
+            disabled={isDisabled}
         >
             <View style={[
                 styles.oAuthContainer,
                 {
                     borderRadius: borderRadius.md,
                     backgroundColor: isPressed ? theme.colors.primaryLight : theme.colors.primary,
-                    opacity: loading ? 0.6 : 1,
+                    opacity: props.loading ? 0.6 : 1,
                 }
             ]}>
-                {loading ? (
+                {props.loading ? (
                     <ActivityIndicator
                         size={responsiveUtils.scale(24)}
                         color={textColor}
@@ -73,7 +48,7 @@ export default function OAuthButton(props: OAuthButtonProps) {
                     <AntDesign name={props.auth} size={responsiveUtils.scale(24)} color={textColor} />
                 )}
                 <Text style={{ color: textColor, fontSize: typography.fontSize['base'] }}>
-                    {loading
+                    {props.loading
                         ? `${props.type === "login" ? "Logging in" : "Signing up"}...`
                         : `${props.type === "login" ? "Login" : "Signup"} with ${props.auth.charAt(0).toUpperCase() + props.auth.slice(1)}`
                     }

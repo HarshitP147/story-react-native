@@ -1,3 +1,4 @@
+import type { User, Session } from "@supabase/supabase-js";
 
 export interface ColorPalette {
     // Primary Colors
@@ -119,6 +120,8 @@ export interface Theme {
 export interface OAuthButtonProps {
     auth: "google" | "apple",
     type: "login" | "signup",
+    loading?: boolean;
+    onPress?: () => Promise<void>;
 }
 
 export interface SwitchProps {
@@ -136,4 +139,14 @@ export interface SwitchProps {
     };
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
+}export interface AuthContextType {
+    user: User | null;
+    session: Session | null;
+    isLoading: boolean;
+    isSignedIn: boolean;
+    signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string; }>;
+    signUp: (email: string, password: string) => Promise<{ success: boolean; error?: string; }>;
+    signOut: () => Promise<void>;
+    signInWithGoogle: () => Promise<{ success: boolean; error?: string; }>;
 }
+

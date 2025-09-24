@@ -1,10 +1,11 @@
-import { use, useContext, useState } from 'react';
+import {  useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { useNavigation } from "@react-navigation/native"
 
 import ThemeContext from '../context/ThemeContext';
+import AuthContext from '../context/AuthContext';
 
 import supabase from '../api/supabase';
 
@@ -17,12 +18,13 @@ import { typography, responsiveUtils, spacing, } from '../util/designSystem'
 
 export default function Signup() {
     const { theme } = useContext(ThemeContext)!;
+    const { signUp, signInWithGoogle } = useContext(AuthContext);
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
-    // const [isOAuthLoading, setIsOAuthLoading] = useState(false)
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOAuthLoading, setIsOAuthLoading] = useState(false);
 
     const navigation = useNavigation();
 
@@ -56,42 +58,51 @@ export default function Signup() {
         setIsLoading(true);
         
         try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email.trim(),
-                password: password,
-            });
-
-            if (error) {
-                Alert.alert('Signup Failed', error.message);
-                return;
-            }
-
-            if (data.user && !data.user.email_confirmed_at) {
-                Alert.alert(
-                    'Check Your Email', 
-                    'Please check your email and click the confirmation link to complete your registration.',
-                    [{ text: 'OK', onPress: () => console.log('Email confirmation reminder shown') }]
-                );
-            } else if (data.user) {
+            const result = await signUp(email, password);
+            
+            if (!result.success) {
+                Alert.alert('Signup Failed', result.error || 'An error occurred during signup');
+            } else if (result.error) {
+                // This case handles email confirmation requirement
+                Alert.alert('Check Your Email', result.error);
+                // Clear form after successful signup
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+            } else {
                 Alert.alert(
                     'Success', 
-                    'Account created successfully! You can now log in.',
-                    [{ text: 'OK', onPress: () => {
-                        // Clear form
-                        setEmail('');
-                        setPassword('');
-                        setConfirmPassword('');
-                        // Navigate to login - you'll need to handle navigation properly
-                        console.log('Navigate to login');
-                    }}]
+                    'Account created successfully! You are now logged in.',
+                    [{ text: 'OK' }]
                 );
+                // Clear form
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
             }
-
         } catch (error) {
             console.error('Signup error:', error);
             Alert.alert('Error', 'An unexpected error occurred. Please try again.');
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleGoogleSignup = async () => {
+        setIsOAuthLoading(true);
+        
+        try {
+            const result = await signInWithGoogle();
+            
+            if (!result.success) {
+                Alert.alert('Google Signup Failed', result.error || 'An error occurred with Google signup');
+            }
+            // Success case is handled by the auth context listener
+        } catch (error) {
+            console.error('Google signup error:', error);
+            Alert.alert('Error', 'An unexpected error occurred with Google signup. Please try again.');
+        } finally {
+            setIsOAuthLoading(false);
         }
     };
 

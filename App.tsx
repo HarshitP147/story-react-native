@@ -41,7 +41,7 @@ function DrawerNav() {
 }
 
 function StackNav() {
-    const { isSignedIn } = useContext(AuthContext)!;
+    const { isSignedIn } = useContext(AuthContext);
 
     return (
         <Stack.Navigator>
@@ -55,32 +55,38 @@ function StackNav() {
             )}
         </Stack.Navigator>
     )
-
 }
 
-
-export default function App() {
-    const [darkTheme, setDarkTheme] = useState(false);
-
-    const { isSignedIn } = useContext(AuthContext)!;
-
-    const themeContextValue = {
-        theme: createTheme(darkTheme),
-        toggleTheme: () => setDarkTheme(!darkTheme)
-    }
+function AppContent() {
+    const { isSignedIn } = useContext(AuthContext);
 
     useEffect(() => {
         console.log("isSignedIn changed: ", isSignedIn);
     }, [isSignedIn]);
 
     return (
+        <>
+            <AppStatusBar />
+            <NavigationContainer>
+                <StackNav />
+            </NavigationContainer>
+        </>
+    );
+}
+
+export default function App() {
+    const [darkTheme, setDarkTheme] = useState(false);
+
+    const themeContextValue = {
+        theme: createTheme(darkTheme),
+        toggleTheme: () => setDarkTheme(!darkTheme)
+    }
+
+    return (
         <SafeAreaProvider>
             <ThemeProvider value={themeContextValue}>
                 <AuthProvider>
-                    <AppStatusBar />
-                    <NavigationContainer>
-                        <StackNav />
-                    </NavigationContainer>
+                    <AppContent />
                 </AuthProvider>
             </ThemeProvider>
         </SafeAreaProvider>
