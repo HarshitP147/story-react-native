@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "productivity-native",
-    "slug": "productivity-native",
+    "slug": "sceal-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +28,14 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      "@react-native-google-signin/google-signin"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "97afb55a-a641-4e3f-9676-03a1dbad65d0"
+      }
+    },
+    "owner": "harshie147"
   }
 }

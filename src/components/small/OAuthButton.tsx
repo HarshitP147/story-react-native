@@ -1,12 +1,14 @@
 import { useContext, useState } from 'react'
 import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { GoogleSignin, } from "@react-native-google-signin/google-signin"
 
 import ThemeContext from '../../context/ThemeContext'
 
 import { borderRadius, responsiveUtils, shadows, spacing, typography } from "../../util/designSystem"
 
 import type { OAuthButtonProps } from '../../util/types';
+
 import supabase from '../../api/supabase';
 
 
@@ -19,8 +21,17 @@ export default function OAuthButton(props: OAuthButtonProps) {
     const isDisabled = props.loading;
 
     const handlePress = async () => {
-        if (props.onPress) {
-            await props.onPress();
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            const googleCredential = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    scopes: 'email profile',
+                }
+            })
+        } catch (err) {
+
         }
     };
 
