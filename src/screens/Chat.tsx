@@ -6,7 +6,7 @@ import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-re
 import ThemeContext from '../context/ThemeContext'
 
 import MessageList from '../layout/MessageList'
-import InputBox from '../components/medium/InputBox'
+import InputBox from '../components/large/InputBox'
 
 
 export default function Chat() {

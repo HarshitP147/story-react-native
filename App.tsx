@@ -10,7 +10,7 @@ import AuthContext, { AuthProvider } from './src/context/AuthContext';
 import Chat from './src/screens/Chat'
 import Login from './src/pages/Login';
 import AppStatusBar from './src/components/small/AppStatusBar';
-import DrawerContent from './src/components/large/DrawerContent';
+import DrawerContent from './src/layout/DrawerContent';
 
 import { createTheme } from './src/util/designSystem'
 import Signup from './src/pages/Signup';

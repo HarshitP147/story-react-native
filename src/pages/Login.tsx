@@ -10,7 +10,7 @@ import supabase from '../api/supabase';
 
 import AuthButton from '../components/small/AuthButton';
 import OAuthButton from '../components/small/OAuthButton';
-import Input from '../components/small/Input';
+import Input from '../components/medium/Input';
 
 import { typography, responsiveUtils, spacing, } from '../util/designSystem'
 import AuthContext from '../context/AuthContext';

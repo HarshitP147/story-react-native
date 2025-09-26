@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import ThemeContext from '../../context/ThemeContext'
 
-import Input from '../small/Input'
+import Input from '../medium/Input'
 
 import { responsiveUtils } from '../../util/designSystem'
 

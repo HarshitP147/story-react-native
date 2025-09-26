@@ -11,7 +11,7 @@ import supabase from '../api/supabase';
 
 import OAuthButton from '../components/small/OAuthButton';
 import AuthButton from '../components/small/AuthButton';
-import Input from '../components/small/Input';
+import Input from '../components/medium/Input';
 
 import { typography, responsiveUtils, spacing, } from '../util/designSystem'
 

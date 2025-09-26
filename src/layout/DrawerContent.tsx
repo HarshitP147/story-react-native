@@ -4,12 +4,12 @@ import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import ThemeContext from "../../context/ThemeContext";
-import AuthContext from "../../context/AuthContext";
+import ThemeContext from "../context/ThemeContext";
+import AuthContext from "../context/AuthContext";
 
-import Switch from "../small/Switch";
+import Switch from "../components/small/Switch";
 
-import { responsiveUtils, borderRadius, spacing, typography } from "../../util/designSystem";
+import { responsiveUtils, borderRadius, spacing, typography } from "../util/designSystem";
 
 
 export default function DrawerContent() {

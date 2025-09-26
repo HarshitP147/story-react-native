@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { GoogleSignin, } from "@react-native-google-signin/google-signin"
@@ -20,17 +20,26 @@ export default function OAuthButton(props: OAuthButtonProps) {
     const textColor = theme.isDark ? theme.colors.textPrimary : theme.colors.textInverse;
     const isDisabled = props.loading;
 
+    useEffect(() => {
+        GoogleSignin.configure({
+            scopes: ['email', 'profile', 'openid'],
+            webClientId: "25213505996-3fu5klf4vpfe1a3e1sg38v1j4o4c3fme.apps.googleusercontent.com",
+        })
+    }, []);
+
     const handlePress = async () => {
         try {
-            await GoogleSignin.hasPlayServices();
+            await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn();
-            const googleCredential = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    scopes: 'email profile',
-                }
-            })
+            // const googleCredential = await supabase.auth.signInWithOAuth({
+            //     provider: 'google',
+            //     options: {
+            //         scopes: 'email profile openid',
+            //     }
+            // })
+            console.log(userInfo)
         } catch (err) {
+            console.error(err)
 
         }
     };

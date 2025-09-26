@@ -29,7 +29,12 @@
     },
     "plugins": [
       "expo-font",
-      "@react-native-google-signin/google-signin"
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.25213505996-g5g05q38fg4c94pb6r41gd64481kl6ni"
+        }
+      ]
     ],
     "extra": {
       "eas": {
