@@ -1,4 +1,3 @@
-
 import { Dimensions, PixelRatio } from 'react-native';
 
 import type { BorderRadiusConfig, ColorPalette, ShadowStyle, SpacingConfig, Theme, TypographyConfig } from "./types"

@@ -1,4 +1,4 @@
-import {  useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
@@ -56,10 +56,10 @@ export default function Signup() {
         }
 
         setIsLoading(true);
-        
+
         try {
             const result = await signUp(email, password);
-            
+
             if (!result.success) {
                 Alert.alert('Signup Failed', result.error || 'An error occurred during signup');
             } else if (result.error) {
@@ -71,7 +71,7 @@ export default function Signup() {
                 setConfirmPassword('');
             } else {
                 Alert.alert(
-                    'Success', 
+                    'Success',
                     'Account created successfully! You are now logged in.',
                     [{ text: 'OK' }]
                 );
@@ -90,10 +90,10 @@ export default function Signup() {
 
     const handleGoogleSignup = async () => {
         setIsOAuthLoading(true);
-        
+
         try {
             const result = await signInWithGoogle();
-            
+
             if (!result.success) {
                 Alert.alert('Google Signup Failed', result.error || 'An error occurred with Google signup');
             }
@@ -142,6 +142,20 @@ export default function Signup() {
 
                         </View>
                     </Animated.View>
+
+                    <View
+                        style={{
+                            marginVertical: spacing['xl'],
+                            borderBottomColor: theme.colors.textSecondary,
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            width: responsiveUtils.wp(80),
+                            marginHorizontal: 'auto',
+                        }}
+                    />
+
+                    <View style={styles.authProviders}>
+                        <OAuthButton auth='google' type='signup' />
+                    </View>
 
                     <Text onPress={() => navigation.navigate("Login")} style={{ color: theme.colors.info, ...styles.link }}>Already have an account? Log in</Text>
                 </View>

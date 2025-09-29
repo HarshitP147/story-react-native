@@ -11,7 +11,6 @@ import { type Theme } from '../util/types';
 import Input from '../components/medium/Input';
 
 
-
 export default function Chat({ theme }: { theme: Theme }) {
     const [input, setInput] = useState('');
 

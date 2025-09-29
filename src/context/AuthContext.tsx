@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
+import type { User, Session, AuthError } from "@supabase/supabase-js"
 
 import supabase from "../api/supabase";
 
-import type { User, Session, AuthError } from "@supabase/supabase-js";
 import { AuthContextType } from "../util/types";
 
 const AuthContext = createContext<AuthContextType>({
@@ -154,7 +154,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         </AuthContext.Provider>
     );
 }
-
-
-
 

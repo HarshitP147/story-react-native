@@ -31,13 +31,19 @@ export default function OAuthButton(props: OAuthButtonProps) {
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn();
-            // const googleCredential = await supabase.auth.signInWithOAuth({
-            //     provider: 'google',
-            //     options: {
-            //         scopes: 'email profile openid',
-            //     }
-            // })
-            console.log(userInfo)
+            if (!userInfo.data?.idToken) {
+                throw new Error("No idToken returned from Google Signin")
+            }
+
+            const { data, error } = await supabase.auth.signInWithIdToken({
+                provider: 'google',
+                token: userInfo.data?.idToken!,
+            })
+
+            if (error) {
+                throw error
+            }
+
         } catch (err) {
             console.error(err)
 
