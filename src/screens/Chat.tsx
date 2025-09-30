@@ -12,6 +12,7 @@ import InputBox from '../components/large/InputBox'
 export default function Chat() {
     const { theme } = useContext(ThemeContext)!;
 
+
     const keyboard = useAnimatedKeyboard();
 
     const animatedStyles = useAnimatedStyle(() => ({

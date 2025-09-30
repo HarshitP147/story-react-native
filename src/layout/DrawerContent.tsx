@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Image } from "react-native";
 
 import ThemeContext from "../context/ThemeContext";
 import AuthContext from "../context/AuthContext";
@@ -15,7 +16,8 @@ import { responsiveUtils, borderRadius, spacing, typography } from "../util/desi
 export default function DrawerContent() {
     const { theme, toggleTheme } = useContext(ThemeContext)!;
 
-    const { signOut } = useContext(AuthContext);
+    const { user, signOut } = useContext(AuthContext);
+
 
     return (
         <SafeAreaView style={[styles.container, {
@@ -26,10 +28,32 @@ export default function DrawerContent() {
                 color: theme.colors.textPrimary,
                 fontWeight: theme.typography.fontWeight.semibold as any,
             }]}>
-                Menu
+                Settings
             </Text>
 
-            <View>
+            <View style={styles.userContainer}>
+                <View style={styles.userInfoContainer}>
+
+                    <Image
+                        source={{
+                            uri: user?.user_metadata.avatar_url,
+                            cache: 'force-cache',
+                            method: 'GET',
+                        }}
+                        style={styles.avatar}
+                    />
+
+                    <Text style={{
+                        color: theme.colors.textPrimary,
+                        fontSize: theme.typography.fontSize['2xl'],
+                        fontWeight: typography.fontWeight.semibold as any
+                    }}>{user?.user_metadata.full_name}</Text>
+
+                </View>
+
+            </View>
+
+            <View >
                 <View style={[styles.themeToggleRow, {
                     paddingVertical: theme.spacing.sm,
                 }]}>
@@ -87,6 +111,23 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.lg,
         marginVertical: spacing.xs,
         marginHorizontal: 'auto',
+    },
+    userContainer: {
+        flex: 1,
+        borderWidth: 1,
+    },
+    userInfoContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        gap: spacing.md,
+        paddingVertical: spacing.sm,
+    },
+    avatar: {
+        width: responsiveUtils.scale(64),
+        height: responsiveUtils.scale(64),
+        borderRadius: borderRadius.full,
     },
     themeToggleRow: {
         display: 'flex',

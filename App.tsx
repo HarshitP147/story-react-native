@@ -8,12 +8,12 @@ import ThemeContext, { ThemeProvider } from './src/context/ThemeContext'
 import AuthContext, { AuthProvider } from './src/context/AuthContext';
 
 import Chat from './src/screens/Chat'
-import Login from './src/pages/Login';
+import Login from './src/screens/Login';
 import AppStatusBar from './src/components/small/AppStatusBar';
 import DrawerContent from './src/layout/DrawerContent';
 
 import { createTheme } from './src/util/designSystem'
-import Signup from './src/pages/Signup';
+import Signup from './src/screens/Signup';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
-import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Alert } from 'react-native'
+import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { GoogleSignin, } from "@react-native-google-signin/google-signin"
 
 import ThemeContext from '../../context/ThemeContext'
 
-import { borderRadius, responsiveUtils, shadows, spacing, typography } from "../../util/designSystem"
+import { borderRadius, responsiveUtils, spacing, typography } from "../../util/designSystem"
 
 import type { OAuthButtonProps } from '../../util/types';
 
@@ -27,7 +27,7 @@ export default function OAuthButton(props: OAuthButtonProps) {
         })
     }, []);
 
-    const handlePress = async () => {
+    const loginWithGoogle = async () => {
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn();
@@ -54,7 +54,7 @@ export default function OAuthButton(props: OAuthButtonProps) {
         <TouchableHighlight
             onPressIn={() => !isDisabled && setPressed(true)}
             onPressOut={() => !isDisabled && setPressed(false)}
-            onPress={handlePress}
+            onPress={loginWithGoogle}
             disabled={isDisabled}
         >
             <View style={[

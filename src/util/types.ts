@@ -139,13 +139,13 @@ export interface SwitchProps {
     };
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
-}export interface AuthContextType {
+}
+
+export interface AuthContextType {
     user: User | null;
     session: Session | null;
     isLoading: boolean;
     isSignedIn: boolean;
-    signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string; }>;
-    signUp: (email: string, password: string) => Promise<{ success: boolean; error?: string; }>;
     signOut: () => Promise<void>;
     signInWithGoogle: () => Promise<{ success: boolean; error?: string; }>;
 }

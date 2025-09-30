@@ -11,9 +11,7 @@ const AuthContext = createContext<AuthContextType>({
     session: null,
     isLoading: true,
     isSignedIn: false,
-    signIn: async () => ({ success: false }),
-    signUp: async () => ({ success: false }),
-    signOut: async () => {},
+    signOut: async () => { },
     signInWithGoogle: async () => ({ success: false }),
 });
 
@@ -55,51 +53,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
-    // Sign in with email and password
-    const signIn = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email.trim(),
-                password: password,
-            });
-
-            if (error) {
-                return { success: false, error: error.message };
-            }
-
-            return { success: true };
-        } catch (error) {
-            console.error('Sign in error:', error);
-            return { success: false, error: 'An unexpected error occurred' };
-        }
-    };
-
-    // Sign up with email and password
-    const signUp = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email.trim(),
-                password: password,
-            });
-
-            if (error) {
-                return { success: false, error: error.message };
-            }
-
-            // Check if email confirmation is required
-            if (data.user && !data.user.email_confirmed_at) {
-                return { 
-                    success: true, 
-                    error: 'Please check your email and click the confirmation link to complete your registration.' 
-                };
-            }
-
-            return { success: true };
-        } catch (error) {
-            console.error('Sign up error:', error);
-            return { success: false, error: 'An unexpected error occurred' };
-        }
-    };
 
     // Sign out
     const signOut = async (): Promise<void> => {
@@ -142,8 +95,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         isLoading,
         isSignedIn: !!user,
-        signIn,
-        signUp,
         signOut,
         signInWithGoogle,
     };
