@@ -1,46 +1,48 @@
 {
-  "expo": {
-    "name": "productivity-native",
-    "slug": "sceal-ai",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.productivitynative"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-font",
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.25213505996-g5g05q38fg4c94pb6r41gd64481kl6ni"
-        }
-      ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "97afb55a-a641-4e3f-9676-03a1dbad65d0"
-      }
-    },
-    "owner": "harshie147"
-  }
+    "expo": {
+        "name": "productivity-native",
+        "slug": "sceal-ai",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "newArchEnabled": true,
+        "splash": {
+            "image": "./assets/splash-icon.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "edgeToEdgeEnabled": true,
+            "predictiveBackGestureEnabled": false,
+            "package": "com.anonymous.productivitynative"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            "@livekit/react-native-expo-plugin",
+            "@config-plugins/react-native-webrtc",
+            "expo-font",
+            [
+                "@react-native-google-signin/google-signin",
+                {
+                    "iosUrlScheme": "com.googleusercontent.apps.25213505996-g5g05q38fg4c94pb6r41gd64481kl6ni"
+                }
+            ],
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "97afb55a-a641-4e3f-9676-03a1dbad65d0"
+            }
+        },
+        "owner": "harshie147"
+    }
 }

@@ -3,20 +3,27 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createDrawerNavigator, } from '@react-navigation/drawer';
+import { ElevenLabsProvider } from "@elevenlabs/react-native"
+import { registerGlobals } from "@livekit/react-native"
 
 import ThemeContext, { ThemeProvider } from './src/context/ThemeContext'
 import AuthContext, { AuthProvider } from './src/context/AuthContext';
 
 import Chat from './src/screens/Chat'
 import Login from './src/screens/Login';
+import Conversation from './src/screens/Conversation';
 import AppStatusBar from './src/components/small/AppStatusBar';
 import DrawerContent from './src/layout/DrawerContent';
 
 import { createTheme } from './src/util/designSystem'
 import Signup from './src/screens/Signup';
 
+
+registerGlobals();
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+
 
 function DrawerNav() {
     const { theme } = useContext(ThemeContext)!;
@@ -46,7 +53,10 @@ function StackNav() {
     return (
         <Stack.Navigator>
             {isSignedIn ? (
-                <Stack.Screen name="Main" component={DrawerNav} options={{ headerShown: false }} />
+                <>
+                    <Stack.Screen name="Main" component={DrawerNav} options={{ headerShown: false }} />
+                    <Stack.Screen name="Conversation" component={Conversation} options={{ headerShown: false }} />
+                </>
             ) : (
                 <>
                     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
@@ -84,11 +94,13 @@ export default function App() {
 
     return (
         <SafeAreaProvider>
-            <ThemeProvider value={themeContextValue}>
-                <AuthProvider>
-                    <AppContent />
-                </AuthProvider>
-            </ThemeProvider>
+            <ElevenLabsProvider>
+                <ThemeProvider value={themeContextValue}>
+                    <AuthProvider>
+                        <AppContent />
+                    </AuthProvider>
+                </ThemeProvider>
+            </ElevenLabsProvider>
         </SafeAreaProvider>
     );
 }

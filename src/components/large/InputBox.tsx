@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import { View, StyleSheet, TouchableHighlight } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useNavigation } from "@react-navigation/native"
 
 import ThemeContext from '../../context/ThemeContext'
 
@@ -11,6 +12,7 @@ import { responsiveUtils } from '../../util/designSystem'
 
 export default function InputBox() {
     const { theme } = useContext(ThemeContext)!;
+    const navigation = useNavigation();
 
     const [message, setMessage] = useState('')
 
@@ -24,7 +26,10 @@ export default function InputBox() {
                 borderRadius: theme.borderRadius.full,
                 padding: responsiveUtils.scale(10),
                 backgroundColor: theme.colors.secondaryLight,
-            }}>
+            }}
+
+                onPress={() => { navigation.navigate('Conversation' as never) }}
+            >
                 <MaterialIcons name="multitrack-audio" size={responsiveUtils.scale(28)} color={theme.colors.textInverse} />
             </TouchableHighlight>
             <Input setMessage={setMessage} />
